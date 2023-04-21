@@ -1,0 +1,39 @@
+﻿<Window x:Class="NP_parsing.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NP_parsing" 
+        xmlns:vm="clr-namespace:NP_parsing.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="650" Width="1000">
+    
+    <Window.DataContext>
+        <vm:MainViewModel></vm:MainViewModel>
+    </Window.DataContext>
+    
+        <StackPanel Orientation="Vertical">
+            <!--<StackPanel Orientation="Horizontal">
+                <Label Content="Adress" VerticalAlignment="Center"/>
+                <TextBox Height="30" Width="200" 
+                         Margin="5"
+                         Text="{Binding AdressPage}"                     
+                     />
+                <Label Content="Pattern" VerticalAlignment="Center"/>
+            <ComboBox Width="100" Margin="10" SelectedIndex="0">
+                <ComboBoxItem Content="Adress"/>
+                <ComboBoxItem Content="Name vacancy"/>
+                <ComboBoxItem Content="Date of create"/>
+            </ComboBox>
+                <TextBox Height="30" Width="200"
+                     Margin="5"
+                     Text="{Binding Pattern}"
+                     />
+            </StackPanel>-->
+        <DataGrid Height="520"  
+            ItemsSource="{Binding DataParsing}"/>                   
+           
+        <Button Height="35" Width="150" Margin="5"
+                    Command="{Binding LoadCommand}">Load</Button>
+        </StackPanel>  
+</Window>
