@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "6ILNUBqPqC/RDlG5Wdcg1VFh1wxTgpJucPSDZGty2MFjKIJyqtf9SoUThkv8B6hnxsjYbT2aUdbjoiLrkdMJBg==",
+  "dgSpecHash": "gzCUFy2NZG1nWuuSj3u2r7MfzmI28BKN4/pExkzVghw6ufZIgnuZJrMhlUmV5ecgIU3LB56ZG3HZFh32QOkbCQ==",
   "success": true,
-  "projectFilePath": "E:\\проэкты\\С#\\,04,2023\\NP_parsing\\NP_parsing\\NP_parsing.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "E:\\проэкты\\С#\\April_2023\\NP_parsing\\NP_parsing\\NP_parsing.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Иван\\.nuget\\packages\\anglesharp\\1.0.1\\anglesharp.1.0.1.nupkg.sha512",
+    "C:\\Users\\Иван\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\Иван\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\Иван\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\Иван\\.nuget\\packages\\system.text.encoding.codepages\\7.0.0\\system.text.encoding.codepages.7.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

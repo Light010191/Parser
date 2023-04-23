@@ -30,8 +30,9 @@
                      Text="{Binding Pattern}"
                      />
             </StackPanel>-->
-        <DataGrid Height="520"  
-            ItemsSource="{Binding DataParsing}"/>                   
+        <DataGrid Height="520" Name="dataGridVacansies" 
+            ItemsSource="{Binding DataParsing}"
+                  MouseDoubleClick="DataGrid_MouseDoubleClick"/>                   
            
         <Button Height="35" Width="150" Margin="5"
                     Command="{Binding LoadCommand}">Load</Button>

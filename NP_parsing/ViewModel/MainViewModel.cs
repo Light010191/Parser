@@ -1,4 +1,7 @@
-﻿using NP_parsing.Model;
+﻿using AngleSharp;
+using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
+using NP_parsing.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,7 +19,7 @@ namespace NP_parsing.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         
         public ObservableCollection<ParsingObject> DataParsing { get; set; } = new ObservableCollection<ParsingObject>();
-        public ActionCommand LoadCommand => new ActionCommand(async c => await ParsingPage());
+        public ActionCommand LoadCommand => new ActionCommand(async c => await ParsingUsingSelectors());
       
         private async Task ParsingPage()
         {
@@ -56,7 +59,8 @@ namespace NP_parsing.ViewModel
 
                     for (int j = 0; j < matchesNameVac.Count; j++)
                     {
-                        DataParsing.Add(new ParsingObject { NameVacancy = matchesNameVac[j].Groups[1].Value, Adress = matchesAdressVac[j].Groups[1].Value, DateOfCreate = matchesDoCVac[j].Groups[1].Value });
+                        DataParsing.Add(new ParsingObject { NameVacancy = matchesNameVac[j].Groups[1].Value,
+                            Adress = matchesAdressVac[j].Groups[1].Value, DateOfCreate = matchesDoCVac[j].Groups[1].Value });
                     }
                 }                     
             }
@@ -64,7 +68,55 @@ namespace NP_parsing.ViewModel
             {
                 MessageBox.Show(ex.Message);                
             } 
-        }       
+        }
+
+        private async Task ParsingUsingSelectors()
+        {
+            try
+            {
+                var config = Configuration.Default.WithDefaultLoader();
+                var context = BrowsingContext.New(config);
+                var uri = "https://proglib.io/vacancies/all";
+
+                var document = await context.OpenAsync(uri);
+                var selectorCountPages = "main > div.feed-pagination";
+                var res = document.QuerySelectorAll(selectorCountPages);
+                var r = res.Last().TextContent;
+                int pageCount = Convert.ToInt32(r.Last());                
+
+
+                ObservableCollection<string> adressPages = new ObservableCollection<string>();
+                string path = "https://proglib.io/vacancies/all?workType=all&workPlace=all&experience=&salaryFrom=&page=";
+
+                for (int i = 0; i < pageCount; i++) adressPages.Add($"{path}{i}");
+
+                var contentPages = await Task.WhenAll(adressPages.Select(async x => await context.OpenAsync(x)));
+
+                foreach (var page in contentPages)
+                {                    
+                    string patternAdressVac = "article > div > div > a";
+                    string patternDoCVac = "div.preview-card__publish > div.publish-info";
+                                        
+                    var adressVacansies = document.QuerySelectorAll(patternAdressVac);
+                    var hrefVacansies = adressVacansies.Select(i =>((IHtmlAnchorElement)i).Href).ToList();
+                    var docVacansies = document.QuerySelectorAll(patternDoCVac);
+
+                    for (int i = 0; i < adressVacansies.Count(); i++)
+                    {
+                        DataParsing.Add(new ParsingObject
+                        {                            
+                            NameVacancy = adressVacansies[i].FirstElementChild.TextContent,
+                            Adress = hrefVacansies[i],
+                            DateOfCreate = docVacansies[i].TextContent
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         public void OnPropertyChanged([CallerMemberName] string property = "")
         {
